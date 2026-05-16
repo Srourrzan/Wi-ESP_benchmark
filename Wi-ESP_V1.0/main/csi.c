@@ -329,17 +329,3 @@ void app_main()
 	printf("Configuration Complete...\n");
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

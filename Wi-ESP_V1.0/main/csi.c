@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "structures.h"
+#include "monitoring_utils.h"
 
 
 
@@ -75,45 +76,6 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
     }
     return ESP_OK;
 }
-
-// void receive_csi_cb(void *ctx, wifi_csi_info_t *Rx_Data) {
-//     wifi_csi_info_t Rx = Rx_Data[0];
-//     char MacAddTx[MAC_ADD_LEN] = {0}; 
-
-//     char APMAC[MAC_ADD_LEN] = {'3','C',':','4','6',':','A','A',':','3','B',':','D','F',':','1','A'}; 
-//     char ClientMAC[MAC_ADD_LEN] = {'A','6',':','C','A',':','1','2',':','6','4',':','7','A',':','D','8'}; 
-    
-//     sprintf(MacAddTx, "%02X:%02X:%02X:%02X:%02X:%02X", Rx.mac[0], Rx.mac[1], Rx.mac[2], Rx.mac[3], Rx.mac[4], Rx.mac[5]);
-    
-//     // FIX: Allow both non-HT (0) and HT (1) packets to collect raw ambient data
-//     if (Rx.rx_ctrl.sig_mode == 0 || Rx.rx_ctrl.sig_mode == 1) 
-//     {
-//         bool ApFrame=false;
-//         bool CLFrame=false;
-
-//         if (strncmp(MacAddTx, APMAC, 17) == 0) {
-//             printf("0:");
-//             ApFrame=true;
-//         } else if (strncmp(MacAddTx, ClientMAC, 17) == 0) {
-//             printf("1:");
-//             CLFrame=true;               
-//         } else {
-//             printf("2:");
-//         }
-
-//         printf("%s:", MacAddTx); 
-
-//         // FIX: Uncomment this loop to actually stream the raw subcarrier data arrays!
-//         int8_t* my_ptr = Rx_Data->buf;
-//         for(int a = 0; a < Rx_Data->len; a++)
-//         {
-//             printf("%d,", my_ptr[a]);
-//         }
-        
-//         printf("%u:\n", Rx.rx_ctrl.timestamp);
-//         vTaskDelay(1);
-//     } 
-// }
 
 /*
  * This function ONLY receive the CSI preamble of frames (if there is any)
@@ -352,6 +314,7 @@ void app_main()
 	sleep(1);
 	
 
+	start_resource_monitor();
 	int WiFi_Channel;
 	ESP_ERROR_CHECK(esp_wifi_start());
 	sleep(1);
